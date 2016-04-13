@@ -1,0 +1,21 @@
+---
+platform: linux
+image: docker:///emccmd/rackhd-cpi
+inputs:
+  - name: scaleio-sdc-bosh-release
+  - name: rexray-bosh-release
+  - name: scaleio-driver-acceptance
+run:
+  path: rexray-bosh-release/ci/tasks/vats.sh
+params:
+  BOSH_DIRECTOR_PUBLIC_IP:            replace-me
+  BOSH_USER:                          replace-me
+  BOSH_PASSWORD:                      replace-me
+  AWS_SUBNET_ID:                      replace-me
+  AWS_SECURITY_GROUP:                 replace-me
+  AWS_ELASTIC_IP:                     replace-me
+  SDC_RELEASE_NAME:                   replace-me
+  REXRAY_RELEASE_NAME:                replace-me
+  SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME: replace-me
+  MDM_IP:                             replace-me
+  REXRAY_CONFIG:                      replace-me

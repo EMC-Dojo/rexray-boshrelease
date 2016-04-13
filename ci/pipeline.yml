@@ -1,0 +1,40 @@
+---
+groups:
+  - name: rexray-scaleio
+    jobs:
+      - scaleio-volman-acceptance
+
+jobs:
+- name: scaleio-volman-acceptance
+  plan:
+  - aggregate:
+    - {trigger: true,  get: scaleio-sdc-bosh-release}
+    - {trigger: true,  get: rexray-bosh-release}
+    - {trigger: true,  get: scaleio-driver-acceptance}
+
+  - task: vats
+    file: rexray-bosh-release/ci/tasks/vats.yml
+    config:
+      params:
+        BOSH_DIRECTOR_PUBLIC_IP:            {{bosh_director_public_ip}}
+        BOSH_USER:                          {{bosh_user}}
+        BOSH_PASSWORD:                      {{bosh_password}}
+        AWS_SUBNET_ID:                      {{aws_subnet_id}}
+        AWS_SECURITY_GROUP:                 {{aws_security_group}}
+        AWS_ELASTIC_IP:                     {{aws_elastic_ip}}
+        SDC_RELEASE_NAME:                   {{sdc_release_name}}
+        REXRAY_RELEASE_NAME:                {{rexray_release_name}}
+        SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME: {{scaleio_acceptance_deployment_name}}
+        MDM_IP:                             {{mdm_ip}}
+        REXRAY_CONFIG:                      {{rexray_config}}
+resources:
+- name: scaleio-sdc-bosh-release
+  type: git
+  source:
+    uri: git@github.com:EMC-CMD/ScaleIO-SDC-Bosh-Release.git
+    private_key: {{github_private_key}}
+
+- name: rexray-bosh-release
+  type: git
+  source:
+    uri: https://github.com/EMC-CMD/rexray-boshrelease.git
