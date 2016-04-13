@@ -45,7 +45,7 @@ networks:
     gateway: 10.0.0.1
     dns: [10.0.0.1]
     reserved:
-    - 10.0.0.2 - 10.0.0.16
+    - 10.0.0.2 - 10.0.0.18
     static:
     - 10.0.0.20
     cloud_properties:
@@ -60,7 +60,7 @@ jobs:
   instances: 1
   templates:
   - {name: setup_sdc, release: ${SDC_RELEASE_NAME}}
-  - {name: rexray_service, release: ${REXRAY_RELEASE_NAME}}
+  - {name: rexray_service , release: ${REXRAY_RELEASE_NAME}}
   resource_pool: vms
   networks:
   - name: private
