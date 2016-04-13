@@ -60,7 +60,7 @@ jobs:
   instances: 1
   templates:
   - {name: setup_sdc, release: ${SDC_RELEASE_NAME}}
-  - {name: rexray, release: ${REXRAY_RELEASE_NAME}}
+  - {name: rexray_service, release: ${REXRAY_RELEASE_NAME}}
   resource_pool: vms
   networks:
   - name: private
