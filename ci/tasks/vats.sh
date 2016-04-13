@@ -75,8 +75,8 @@ properties:
   scaleio:
     mdm:
       ip: ${MDM_IP}
-      rexray: |
-        ${REXRAY_CONFIG}
+  rexray: |
+    ${REXRAY_CONFIG}
 
 compilation:
   workers: 1
