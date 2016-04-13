@@ -31,9 +31,10 @@ resources:
   type: git
   source:
     uri: git@github.com:EMC-CMD/ScaleIO-SDC-Bosh-Release.git
-    private_key: {{github_private_key}}
+    private_key: {{sdc_bosh_release_private_key}}
 
 - name: rexray-bosh-release
   type: git
   source:
     uri: https://github.com/EMC-CMD/rexray-boshrelease.git
+    private_key: {{rexray_bosh_release_private_key}}
