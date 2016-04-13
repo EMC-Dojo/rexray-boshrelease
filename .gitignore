@@ -1,0 +1,16 @@
+config/private.yml
+config/dev.yml
+blobs
+.blobs
+.dev_builds
+.idea
+.final_builds/jobs/**/*.tgz
+.final_builds/packages/**/*.tgz
+dev_releases
+tmp
+releases/**/*.tgz
+.DS_Store
+*.swp
+*~
+*#
+#*

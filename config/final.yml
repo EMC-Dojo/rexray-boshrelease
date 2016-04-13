@@ -1,0 +1,6 @@
+---
+final_name: rexray-bosh-release
+blobstore:
+  provider: s3
+  options:
+    bucket_name: rexray-bosh-release

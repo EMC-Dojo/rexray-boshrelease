@@ -1,0 +1,4 @@
+#!/bin/bash -ex
+
+chmod +x rexray/rexray
+cp -r rexray/rexray ${BOSH_INSTALL_TARGET}

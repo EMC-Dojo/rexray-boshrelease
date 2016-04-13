@@ -1,0 +1,10 @@
+---
+name: rexray_service
+templates:
+  ctl.erb: bin/ctl
+packages:
+- rexray
+properties:
+  rexray:
+    description: 'Configuration YAML contents for connecting to specific storage.'
+    example: 'Check http://rexray.readthedocs.org/en/stable/user-guide/config/ for help.'

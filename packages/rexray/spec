@@ -1,0 +1,7 @@
+---
+name: rexray
+
+dependencies:
+
+files:
+  - rexray/rexray # From EMCCODE

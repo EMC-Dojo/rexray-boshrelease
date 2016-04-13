@@ -1,0 +1,64 @@
+#!/bin/bash -eu
+
+RUN_DIR=/var/vcap/sys/run/rexray_service
+LOG_DIR=/var/vcap/sys/log/rexray_service
+JOB_DIR=/var/vcap/jobs/rexray_service
+PKG_DIR=/var/vcap/packages/rexray
+PIDFILE=$RUN_DIR/rr.pid
+<% rexray_config = '/etc/rexray' %>
+REXRAY_CONFIG=<%= rexray_config %>
+
+
+## Helper functions for RexRay
+timestamp() {
+  date +"%T"
+}
+
+
+case $1 in
+
+  start)
+    mkdir -p $LOG_DIR
+    chown -R vcap:vcap $LOG_DIR
+
+    mkdir -p $RUN_DIR
+    chown -R vcap:vcap $RUN_DIR
+
+    mkdir -p $REXRAY_CONFIG
+    sudo cat > $REXRAY_CONFIG/config.yml <<EOF
+<%= p('rexray') %>
+EOF
+    $PKG_DIR/rexray service start| grep 'SUCCESS!' &> /dev/null
+    if [ $? == 0 ]; then
+       echo "$(timestamp) Successfully Started RexRay! :)" >> $LOG_DIR/log.txt
+    else
+       echo "$(timestamp) FAILED to start RexRay: Check $REXRAY/config.yml and make sure you have the correct params. Check http://rexray.readthedocs.org/en/stable/user-guide/config/ for help." >> $LOG_DIR/log.txt
+    fi
+
+    echo $$ > $PIDFILE
+
+    while true; do
+      sleep 5
+      $PKG_DIR/rexray service status| grep 'REX-Ray is running' &> /dev/null
+      if [ $? == 0 ]; then
+         echo "" >> /dev/null
+      else
+         echo "$(timestamp) FAILED to find RexRay Running: Check $REXRAY/config.yml and make sure you have the correct params. Check http://rexray.readthedocs.org/en/stable/user-guide/config/ for help." >> $LOG_DIR/log.txt
+         kill -9 `cat $PIDFILE`
+         rm -f $PIDFILE
+      fi
+    done
+    ;;
+
+  stop)
+    $PKG_DIR/rexray service stop
+    kill -9 `cat $PIDFILE`
+    rm -f $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}"
+    ;;
+
+esac

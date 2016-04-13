@@ -1,0 +1,5 @@
+check process rexray_service
+  with pidfile /var/vcap/sys/run/rexray_service/rr.pid
+  start program "/var/vcap/jobs/rexray_service/bin/ctl start"
+  stop program "/var/vcap/jobs/rexray_service/bin/ctl stop"
+  group vcap
