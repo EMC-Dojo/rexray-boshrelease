@@ -10,7 +10,6 @@ jobs:
   - aggregate:
     - {trigger: true,  get: scaleio-sdc-bosh-release}
     - {trigger: true,  get: rexray-bosh-release}
-    - {trigger: true,  get: scaleio-driver-acceptance}
 
   - task: vats
     file: rexray-bosh-release/ci/tasks/vats.yml
