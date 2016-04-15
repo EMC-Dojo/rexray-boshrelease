@@ -109,3 +109,36 @@ pushd rexray-bosh-release
 popd
 
 bosh -n deploy
+
+echo ${DEPLOYMENT_PRIVATE_KEY} > bosh.pem
+
+cat > "run_test.sh" <<EOF
+  set -x
+  export GOPATH=/home/vcap/gopath
+  export PATH=\$PATH:/home/vcap/gopath/bin
+
+  add-apt-repository ppa:ubuntu-lxc/lxd-stable && apt-get -y update && apt-get -y install golang
+  apt-get -y install git
+  mkdir -p gopath
+  go get github.com/onsi/ginkgo/ginkgo
+  go get github.com/onsi/gomega
+  go get github.com/EMC-CMD/ScaleIO-Driver-Acceptance || true
+
+  cd \$GOPATH/src/github.com/EMC-CMD/ScaleIO-Driver-Acceptance/
+  go get -t ./... || true
+
+  cd \$GOPATH/src/github.com/cloudfoundry-incubator/volman
+  go get -t ./... || true
+
+  cd \$GOPATH/src/github.com/EMC-CMD/ScaleIO-Driver-Acceptance/
+  ginkgo -r
+EOF
+chmod +x run_test.sh
+scp -i bosh.pem run_test.sh vcap@${AWS_ELASTIC_IP}:/home/vcap/
+
+function ssh_run() {
+  ssh -o "StrictHostKeyChecking no" -i bosh.pem vcap@${AWS_ELASTIC_IP} \
+    "echo ${DEPLOYMENT_PASSWORD} | sudo -S bash -c 'source /home/vcap/.bashrc && $* '"
+}
+
+ssh_run ./run_test.sh

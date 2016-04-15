@@ -10,6 +10,8 @@ params:
   BOSH_DIRECTOR_PUBLIC_IP:            replace-me
   BOSH_USER:                          replace-me
   BOSH_PASSWORD:                      replace-me
+  DEPLOYMENT_PRIVATE_KEY:             replace-me
+  DEPLOYMENT_PASSWORD:                replace-me
   AWS_SUBNET_ID:                      replace-me
   AWS_SECURITY_GROUP:                 replace-me
   AWS_ELASTIC_IP:                     replace-me

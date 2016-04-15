@@ -18,6 +18,8 @@ jobs:
         BOSH_DIRECTOR_PUBLIC_IP:            {{bosh_director_public_ip}}
         BOSH_USER:                          {{bosh_user}}
         BOSH_PASSWORD:                      {{bosh_password}}
+        DEPLOYMENT_PRIVATE_KEY:             {{deployment_private_key}}
+        DEPLOYMENT_PASSWORD:                {{deployment_password}}
         AWS_SUBNET_ID:                      {{aws_subnet_id}}
         AWS_SECURITY_GROUP:                 {{aws_security_group}}
         AWS_ELASTIC_IP:                     {{aws_elastic_ip}}
