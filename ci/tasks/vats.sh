@@ -107,9 +107,9 @@ pushd rexray-bosh-release
 popd
 
 function cleanUp {
-  bosh delete deployment ${SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME}
-  bosh delete release ${REXRAY_RELEASE_NAME}
-  bosh delete release ${SDC_RELEASE_NAME}
+  bosh -n delete deployment ${SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME}
+  bosh -n delete release ${REXRAY_RELEASE_NAME}
+  bosh -n delete release ${SDC_RELEASE_NAME}
 }
 trap cleanUp EXIT
 
@@ -138,7 +138,7 @@ cat > "run_test.sh" <<EOF
 EOF
 chmod +x run_test.sh
 
-echo ${DEPLOYMENT_PRIVATE_KEY} > bosh.pem
+echo "$DEPLOYMENT_PRIVATE_KEY" > bosh.pem
 chmod 600 bosh.pem
 scp -o StrictHostKeyChecking=no -i bosh.pem run_test.sh vcap@${AWS_ELASTIC_IP}:/home/vcap/
 
