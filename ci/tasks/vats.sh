@@ -4,8 +4,6 @@ set -e -x
 
 source rexray-bosh-release/ci/tasks/utils.sh
 
-
-
 bosh target $BOSH_DIRECTOR_PUBLIC_IP
 bosh login $BOSH_USER $BOSH_PASSWORD
 
@@ -108,9 +106,14 @@ pushd rexray-bosh-release
   bosh -n upload release
 popd
 
-bosh -n deploy
+function cleanUp {
+  bosh delete deployment ${SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME}
+  bosh delete release ${REXRAY_RELEASE_NAME}
+  bosh delete release ${SDC_RELEASE_NAME}
+}
+trap cleanUp EXIT
 
-echo ${DEPLOYMENT_PRIVATE_KEY} > bosh.pem
+bosh -n deploy
 
 cat > "run_test.sh" <<EOF
   set -x
@@ -134,7 +137,10 @@ cat > "run_test.sh" <<EOF
   ginkgo -r
 EOF
 chmod +x run_test.sh
-scp -i bosh.pem run_test.sh vcap@${AWS_ELASTIC_IP}:/home/vcap/
+
+echo ${DEPLOYMENT_PRIVATE_KEY} > bosh.pem
+chmod 600 bosh.pem
+scp -o StrictHostKeyChecking=no -i bosh.pem run_test.sh vcap@${AWS_ELASTIC_IP}:/home/vcap/
 
 function ssh_run() {
   ssh -o "StrictHostKeyChecking no" -i bosh.pem vcap@${AWS_ELASTIC_IP} \
