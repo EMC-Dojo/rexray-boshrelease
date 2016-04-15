@@ -4,6 +4,7 @@ image: docker:///emccmd/rackhd-cpi
 inputs:
   - name: scaleio-sdc-bosh-release
   - name: rexray-bosh-release
+  - name: volman
 run:
   path: rexray-bosh-release/ci/tasks/vats.sh
 params:

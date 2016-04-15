@@ -40,3 +40,8 @@ resources:
   source:
     uri: git@github.com:EMC-CMD/rexray-boshrelease.git
     private_key: {{rexray_bosh_release_private_key}}
+
+- name: volman
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry-incubator/volman
