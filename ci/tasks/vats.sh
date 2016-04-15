@@ -144,7 +144,7 @@ scp -o StrictHostKeyChecking=no -i bosh.pem run_test.sh vcap@${AWS_ELASTIC_IP}:/
 
 function ssh_run() {
   ssh -o "StrictHostKeyChecking no" -i bosh.pem vcap@${AWS_ELASTIC_IP} \
-    "echo ${DEPLOYMENT_PASSWORD} | sudo -S bash -c 'source /home/vcap/.bashrc && $* '"
+    "echo ${DEPLOYMENT_PASSWORD} | sudo -S bash -c ' $* '"
 }
 
 ssh_run ./run_test.sh
