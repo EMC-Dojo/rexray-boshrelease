@@ -22,7 +22,7 @@ cat > config/private.yml << EOF
 ---
 blobstore:
   s3:
-    bucket_name: rexray-bosh-release-final
+    bucket_name: rexray-bosh-release
     access_key_id: ${S3_ACCESS_KEY_ID}
     secret_access_key: ${S3_SECRET_ACCESS_KEY}
 EOF
@@ -31,7 +31,7 @@ set -x
 echo "using bosh CLI version..."
 bosh version
 
-echo "finalizing scaleio sdc release..."
+echo "finalizing rexray release..."
 echo '' | bosh create release --force --with-tarball --version ${integer_version} --name ${REXRAY_RELEASE_NAME}
 bosh finalize release dev_releases/${REXRAY_RELEASE_NAME}/*.tgz --version ${integer_version}
 
