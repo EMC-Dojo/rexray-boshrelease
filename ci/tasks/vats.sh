@@ -4,6 +4,20 @@ set -e -x
 
 source rexray-bosh-release/ci/tasks/utils.sh
 
+check_param BOSH_DIRECTOR_PUBLIC_IP
+check_param BOSH_USER
+check_param BOSH_PASSWORD
+check_param DEPLOYMENT_PRIVATE_KEY
+check_param DEPLOYMENT_PASSWORD
+check_param AWS_SUBNET_ID
+check_param AWS_SECURITY_GROUP
+check_param AWS_ELASTIC_IP
+check_param SDC_RELEASE_NAME
+check_param REXRAY_RELEASE_NAME
+check_param SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME
+check_param MDM_IP
+check_param REXRAY_CONFIG
+
 bosh target $BOSH_DIRECTOR_PUBLIC_IP
 bosh login $BOSH_USER $BOSH_PASSWORD
 

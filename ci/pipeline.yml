@@ -3,6 +3,8 @@ groups:
   - name: rexray-scaleio
     jobs:
       - scaleio-volman-acceptance
+      - promote-scaleio-sdc-candidate
+      - promote-rexray-candidate
 
 jobs:
 - name: scaleio-volman-acceptance
@@ -28,6 +30,49 @@ jobs:
         SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME: {{scaleio_acceptance_deployment_name}}
         MDM_IP:                             {{mdm_ip}}
         REXRAY_CONFIG:                      {{rexray_config}}
+
+- name: promote-scaleio-sdc-candidate
+  serial: true
+  plan:
+  - aggregate:
+    - {trigger: true, passed: [scaleio-volman-acceptance], get: scaleio-sdc-bosh-release}
+    - {trigger: false,                                   get: scaleio-sdc-release-version-semver, params: {bump: major}}
+
+  - task: promote-scaleio-sdc-release
+    file: scaleio-sdc-release/ci/tasks/promote-scaleio-sdc-candidate.yml
+    config:
+      params:
+        S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
+        S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
+        SDC_RELEASE_NAME:     {{sdc_release_name}}
+
+  - put: scaleio-sdc-bosh-release
+    params: {repository: promote/rexray-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
+
+  - put: scaleio-sdc-release-version-semver
+    params: {file: scaleio-sdc-release-version-semver/number}
+
+- name: promote-rexray-candidate
+  serial: true
+  plan:
+  - aggregate:
+    - {trigger: true, passed: [scaleio-volman-acceptance], get: rexray-bosh-release}
+    - {trigger: false,                                   get: rexray-release-version-semver, params: {bump: major}}
+
+  - task: promote-rexray-release
+    file: rexray-release/ci/tasks/promote-rexray-candidate.yml
+    config:
+      params:
+        S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
+        S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
+        REXRAY_RELEASE_NAME:  {{rexray_release_name}}
+
+  - put: rexray-bosh-release
+    params: {repository: promote/rexray-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
+
+  - put: rexray-release-version-semver
+    params: {file: rexray-release-version-semver/number}
+
 resources:
 - name: scaleio-sdc-bosh-release
   type: git
@@ -45,3 +90,19 @@ resources:
   type: git
   source:
     uri: https://github.com/cloudfoundry-incubator/volman
+
+- name: rexray-release-version-semver
+  type: semver
+  source:
+    key:               release-current-version
+    bucket:            {{s3_rexray_semver_bucket_name}}
+    access_key_id:     {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
+
+- name: scaleio-sdc-release-version-semver
+  type: semver
+  source:
+    key:               release-current-version
+    bucket:            {{s3_scaleio_sdc_semver_bucket_name}}
+    access_key_id:     {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
