@@ -161,4 +161,4 @@ function ssh_run() {
     "echo ${DEPLOYMENT_PASSWORD} | sudo -S bash -c ' $* '"
 }
 
-ssh_run ./run_test.sh
+#ssh_run ./run_test.sh
