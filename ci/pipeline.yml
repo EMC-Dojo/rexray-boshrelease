@@ -36,10 +36,11 @@ jobs:
   plan:
   - aggregate:
     - {trigger: true, passed: [scaleio-volman-acceptance], get: scaleio-sdc-bosh-release}
+    - {trigger: false,                                   get: rexray-bosh-release}
     - {trigger: false,                                   get: scaleio-sdc-release-version-semver, params: {bump: major}}
 
   - task: promote-scaleio-sdc-release
-    file: scaleio-sdc-release/ci/tasks/promote-scaleio-sdc-candidate.yml
+    file: rexray-bosh-release/ci/tasks/promote-scaleio-sdc-candidate.yml
     config:
       params:
         S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
@@ -60,7 +61,7 @@ jobs:
     - {trigger: false,                                   get: rexray-release-version-semver, params: {bump: major}}
 
   - task: promote-rexray-release
-    file: rexray-release/ci/tasks/promote-rexray-candidate.yml
+    file: rexray-bosh-release/ci/tasks/promote-rexray-candidate.yml
     config:
       params:
         S3_ACCESS_KEY_ID:     {{s3_access_key_id}}

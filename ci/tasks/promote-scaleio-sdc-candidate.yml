@@ -4,10 +4,11 @@ image: docker:///emccmd/rackhd-cpi
 inputs:
 - name: scaleio-sdc-bosh-release
 - name: scaleio-sdc-release-version-semver
+- name: rexray-bosh-release
 outputs:
 - name: promote
 run:
-  path: scaleio-sdc-bosh-release/ci/tasks/promote-candidate.sh
+  path: rexray-bosh-release/ci/tasks/promote-scaleio-sdc-candidate.sh
 params:
   S3_ACCESS_KEY_ID:       replace-me
   S3_SECRET_ACCESS_KEY:   replace-me
