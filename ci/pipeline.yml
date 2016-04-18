@@ -48,7 +48,7 @@ jobs:
         SDC_RELEASE_NAME:     {{sdc_release_name}}
 
   - put: scaleio-sdc-bosh-release
-    params: {repository: promote/rexray-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
+    params: {repository: promote/scaleio-sdc-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
 
   - put: scaleio-sdc-release-version-semver
     params: {file: scaleio-sdc-release-version-semver/number}
@@ -77,17 +77,17 @@ jobs:
 resources:
 - name: scaleio-sdc-bosh-release
   type: git
-  branch: master
   source:
     uri: git@github.com:EMC-CMD/ScaleIO-SDC-Bosh-Release.git
     private_key: {{sdc_bosh_release_private_key}}
+    branch: master
 
 - name: rexray-bosh-release
   type: git
-  branch: master
   source:
     uri: git@github.com:EMC-CMD/rexray-boshrelease.git
     private_key: {{rexray_bosh_release_private_key}}
+    branch: master
 
 - name: volman
   type: git
