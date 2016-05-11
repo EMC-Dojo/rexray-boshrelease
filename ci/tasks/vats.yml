@@ -2,22 +2,32 @@
 platform: linux
 image: docker:///emccmd/rackhd-cpi
 inputs:
-  - name: scaleio-sdc-bosh-release
-  - name: rexray-bosh-release
-  - name: volman
+- name: scaleio-sdc-bosh-release
+- name: rexray-bosh-release
+- name: volman
+- name: stemcell
 run:
   path: rexray-bosh-release/ci/tasks/vats.sh
 params:
-  BOSH_DIRECTOR_PUBLIC_IP:            replace-me
-  BOSH_USER:                          replace-me
-  BOSH_PASSWORD:                      replace-me
-  DEPLOYMENT_PRIVATE_KEY:             replace-me
-  DEPLOYMENT_PASSWORD:                replace-me
-  AWS_SUBNET_ID:                      replace-me
-  AWS_SECURITY_GROUP:                 replace-me
-  AWS_ELASTIC_IP:                     replace-me
-  SDC_RELEASE_NAME:                   replace-me
-  REXRAY_RELEASE_NAME:                replace-me
-  SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME: replace-me
-  MDM_IP:                             replace-me
-  REXRAY_CONFIG:                      replace-me
+  AWS_ELASTIC_IP:                          replace-me
+  AWS_SECURITY_GROUP:                      replace-me
+  AWS_SUBNET_ID:                           replace-me
+  BOSH_DIRECTOR_PUBLIC_IP:                 replace-me
+  BOSH_PASSWORD:                           replace-me
+  BOSH_USER:                               replace-me
+  DEPLOYMENT_NAME:                         replace-me
+  DEPLOYMENT_PASSWORD:                     replace-me
+  DEPLOYMENT_PRIVATE_KEY:                  replace-me
+  REXRAY_RELEASE_NAME:                     replace-me
+  SCALEIO_ENDPOINT:                        replace-me
+  SCALEIO_MDM_IP:                          replace-me
+  SCALEIO_PASSWORD:                        replace-me
+  SCALEIO_PROTECTION_DOMAIN_ID:            replace-me
+  SCALEIO_PROTECTION_DOMAIN_NAME:          replace-me
+  SCALEIO_SDC_RELEASE_NAME:                replace-me
+  SCALEIO_STORAGE_POOL_ID:                 replace-me
+  SCALEIO_STORAGE_POOL_NAME:               replace-me
+  SCALEIO_SYSTEM_ID:                       replace-me
+  SCALEIO_USER_ID:                         replace-me
+  SCALEIO_USERNAME:                        replace-me
+  SCALEIO_VERSION:                         replace-me

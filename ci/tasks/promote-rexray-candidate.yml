@@ -9,6 +9,6 @@ outputs:
 run:
   path: rexray-bosh-release/ci/tasks/promote-rexray-candidate.sh
 params:
+  REXRAY_RELEASE_NAME:    replace-me
   S3_ACCESS_KEY_ID:       replace-me
   S3_SECRET_ACCESS_KEY:   replace-me
-  REXRAY_RELEASE_NAME:    replace-me

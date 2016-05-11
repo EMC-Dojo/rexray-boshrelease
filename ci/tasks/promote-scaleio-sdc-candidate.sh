@@ -6,7 +6,7 @@ source rexray-bosh-release/ci/tasks/utils.sh
 
 check_param S3_ACCESS_KEY_ID
 check_param S3_SECRET_ACCESS_KEY
-check_param SDC_RELEASE_NAME
+check_param SCALEIO_SDC_RELEASE_NAME
 
 # Creates an integer version number from the semantic version format
 # May be changed when we decide to fully use semantic versions for releases
@@ -32,8 +32,8 @@ echo "using bosh CLI version..."
 bosh version
 
 echo "finalizing scaleio sdc release..."
-echo '' | bosh create release --force --with-tarball --version ${integer_version} --name ${SDC_RELEASE_NAME}
-bosh finalize release dev_releases/${SDC_RELEASE_NAME}/*.tgz --version ${integer_version}
+echo '' | bosh create release --force --with-tarball --version ${integer_version} --name ${SCALEIO_SDC_RELEASE_NAME}
+bosh finalize release dev_releases/${SCALEIO_SDC_RELEASE_NAME}/*.tgz --version ${integer_version}
 
 rm config/private.yml
 

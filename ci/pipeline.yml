@@ -1,10 +1,10 @@
 ---
 groups:
-  - name: rexray-scaleio
-    jobs:
-      - scaleio-volman-acceptance
-      - promote-scaleio-sdc-candidate
-      - promote-rexray-candidate
+- name: rexray-scaleio
+  jobs:
+  - scaleio-volman-acceptance
+  - promote-scaleio-sdc-candidate
+  - promote-rexray-candidate
 
 jobs:
 - name: scaleio-volman-acceptance
@@ -13,23 +13,32 @@ jobs:
     - {trigger: true,  get: scaleio-sdc-bosh-release}
     - {trigger: true,  get: rexray-bosh-release}
     - {trigger: true,  get: volman}
+    - {trigger: false, get: stemcell}
   - task: vats
     file: rexray-bosh-release/ci/tasks/vats.yml
-    config:
-      params:
-        BOSH_DIRECTOR_PUBLIC_IP:            {{bosh_director_public_ip}}
-        BOSH_USER:                          {{bosh_user}}
-        BOSH_PASSWORD:                      {{bosh_password}}
-        DEPLOYMENT_PRIVATE_KEY:             {{deployment_private_key}}
-        DEPLOYMENT_PASSWORD:                {{deployment_password}}
-        AWS_SUBNET_ID:                      {{aws_subnet_id}}
-        AWS_SECURITY_GROUP:                 {{aws_security_group}}
-        AWS_ELASTIC_IP:                     {{aws_elastic_ip}}
-        SDC_RELEASE_NAME:                   {{sdc_release_name}}
-        REXRAY_RELEASE_NAME:                {{rexray_release_name}}
-        SCALEIO_ACCEPTANCE_DEPLOYMENT_NAME: {{scaleio_acceptance_deployment_name}}
-        MDM_IP:                             {{mdm_ip}}
-        REXRAY_CONFIG:                      {{rexray_config}}
+    params:
+      AWS_SUBNET_ID:                      {{aws_subnet_id}}
+      AWS_SECURITY_GROUP:                 {{aws_security_group}}
+      AWS_ELASTIC_IP:                     {{aws_elastic_ip}}
+      BOSH_DIRECTOR_PUBLIC_IP:            {{bosh_director_public_ip}}
+      BOSH_USER:                          {{bosh_user}}
+      BOSH_PASSWORD:                      {{bosh_password}}
+      DEPLOYMENT_NAME:                    {{deployment_name}}
+      DEPLOYMENT_PRIVATE_KEY:             {{deployment_private_key}}
+      DEPLOYMENT_PASSWORD:                {{deployment_password}}
+      REXRAY_RELEASE_NAME:                {{rexray_release_name}}
+      SCALEIO_SDC_RELEASE_NAME:           {{scaleio_sdc_release_name}}
+      SCALEIO_MDM_IP:                     {{scaleio_mdm_ip}}
+      SCALEIO_ENDPOINT:                   {{scaleio_endpoint}}
+      SCALEIO_USER_ID:                    {{scaleio_user_id}}
+      SCALEIO_PASSWORD:                   {{scaleio_password}}
+      SCALEIO_USERNAME:                   {{scaleio_username}}
+      SCALEIO_VERSION:                    {{scaleio_version}}
+      SCALEIO_SYSTEM_ID:                  {{scaleio_system_id}}
+      SCALEIO_STORAGE_POOL_ID:            {{scaleio_storage_pool_id}}
+      SCALEIO_STORAGE_POOL_NAME:          {{scaleio_storage_pool_name}}
+      SCALEIO_PROTECTION_DOMAIN_ID:       {{scaleio_protection_domain_id}}
+      SCALEIO_PROTECTION_DOMAIN_NAME:     {{scaleio_protection_domain_name}}
 
 - name: promote-scaleio-sdc-candidate
   serial: true
@@ -38,18 +47,14 @@ jobs:
     - {trigger: true, passed: [scaleio-volman-acceptance], get: scaleio-sdc-bosh-release}
     - {trigger: false,                                   get: rexray-bosh-release}
     - {trigger: false,                                   get: scaleio-sdc-release-version-semver, params: {bump: major}}
-
   - task: promote-scaleio-sdc-release
     file: rexray-bosh-release/ci/tasks/promote-scaleio-sdc-candidate.yml
-    config:
-      params:
-        S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
-        S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
-        SDC_RELEASE_NAME:     {{sdc_release_name}}
-
+    params:
+      S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
+      S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
+      SCALEIO_SDC_RELEASE_NAME:     {{scaleio_sdc_release_name}}
   - put: scaleio-sdc-bosh-release
     params: {repository: promote/scaleio-sdc-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
-
   - put: scaleio-sdc-release-version-semver
     params: {file: scaleio-sdc-release-version-semver/number}
 
@@ -59,14 +64,12 @@ jobs:
   - aggregate:
     - {trigger: true, passed: [scaleio-volman-acceptance], get: rexray-bosh-release}
     - {trigger: false,                                   get: rexray-release-version-semver, params: {bump: major}}
-
   - task: promote-rexray-release
     file: rexray-bosh-release/ci/tasks/promote-rexray-candidate.yml
-    config:
-      params:
-        S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
-        S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
-        REXRAY_RELEASE_NAME:  {{rexray_release_name}}
+    params:
+      S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
+      S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
+      REXRAY_RELEASE_NAME:  {{rexray_release_name}}
 
   - put: rexray-bosh-release
     params: {repository: promote/rexray-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
@@ -109,3 +112,8 @@ resources:
     bucket:            {{s3_scaleio_sdc_semver_bucket_name}}
     access_key_id:     {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
+
+- name: stemcell
+  type: bosh-io-stemcell
+  source:
+    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
