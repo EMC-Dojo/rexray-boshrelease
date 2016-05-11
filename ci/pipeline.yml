@@ -13,7 +13,7 @@ jobs:
     - {trigger: true,  get: scaleio-sdc-bosh-release}
     - {trigger: true,  get: rexray-bosh-release}
     - {trigger: true,  get: volman}
-    - {trigger: false, get: stemcell}
+    - {trigger: false, get: stemcell, version: {version: "3215"}}
   - task: vats
     file: rexray-bosh-release/ci/tasks/vats.yml
     params:

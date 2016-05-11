@@ -28,7 +28,7 @@ check_param SCALEIO_VERSION
 
 bosh target ${BOSH_DIRECTOR_PUBLIC_IP}
 bosh login ${BOSH_USER} ${BOSH_PASSWORD}
-# bosh upload stemcell stemcell/stemcell.tgz || true
+bosh upload stemcell stemcell/stemcell.tgz || true
 
 cat > scaleio-acceptance-manifest.yml <<EOF
 ---
