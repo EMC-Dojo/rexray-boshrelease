@@ -14,7 +14,7 @@ check_param DEPLOYMENT_PASSWORD
 check_param DEPLOYMENT_PRIVATE_KEY
 check_param REXRAY_RELEASE_NAME
 check_param SCALEIO_ENDPOINT
-check_param SCALEIO_MDM_IP
+check_param SCALEIO_MDM_IPS
 check_param SCALEIO_PASSWORD
 check_param SCALEIO_PROTECTION_DOMAIN_ID
 check_param SCALEIO_PROTECTION_DOMAIN_NAME
@@ -94,7 +94,7 @@ jobs:
 properties:
   scaleio:
     mdm:
-      ip: ${SCALEIO_MDM_IP}
+      ips: ${SCALEIO_MDM_IPS}
   rexray: |
     ---
     rexray:
@@ -202,6 +202,8 @@ go install github.com/onsi/ginkgo/ginkgo
 
 cd \$GOPATH/src/github.com/cloudfoundry-incubator/volume_driver_cert
 go get -t ./...
+
+printf "http://127.0.0.1:9000" > /etc/docker/plugins/rexray.spec
 
 export FIXTURE_FILENAME=/home/vcap/config.json
 ginkgo

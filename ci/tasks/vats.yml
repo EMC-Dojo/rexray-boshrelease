@@ -20,7 +20,7 @@ params:
   DEPLOYMENT_PRIVATE_KEY:                  replace-me
   REXRAY_RELEASE_NAME:                     replace-me
   SCALEIO_ENDPOINT:                        replace-me
-  SCALEIO_MDM_IP:                          replace-me
+  SCALEIO_MDM_IPS:                         replace-me
   SCALEIO_PASSWORD:                        replace-me
   SCALEIO_PROTECTION_DOMAIN_ID:            replace-me
   SCALEIO_PROTECTION_DOMAIN_NAME:          replace-me
