@@ -11,10 +11,10 @@ jobs:
   serial: true
   plan:
   - aggregate:
-    - {trigger: true,  get: scaleio-sdc-bosh-release}
-    - {trigger: true,  get: rexray-bosh-release}
-    - {trigger: true,  get: volman}
-    - {trigger: false, get: stemcell, version: {version: "3215"}}
+    - {trigger: true,       get: scaleio-sdc-bosh-release}
+    - {trigger: true,       get: rexray-bosh-release}
+    - {trigger: true,       get: volman}
+    - {trigger: false,      get: stemcell,                 version: {version: "3215"}}
   - task: vats
     file: rexray-bosh-release/ci/tasks/vats.yml
     params:
@@ -45,14 +45,14 @@ jobs:
   serial: true
   plan:
   - aggregate:
-    - {trigger: true, passed: [scaleio-volman-acceptance], get: scaleio-sdc-bosh-release}
-    - {trigger: false,                                   get: rexray-bosh-release}
-    - {trigger: false,                                   get: scaleio-sdc-release-version-semver, params: {bump: major}}
+    - {trigger: true,  passed: [scaleio-volman-acceptance], get: scaleio-sdc-bosh-release}
+    - {trigger: false,                                      get: rexray-bosh-release}
+    - {trigger: false,                                      get: scaleio-sdc-release-version-semver, params: {bump: major}}
   - task: promote-scaleio-sdc-release
     file: rexray-bosh-release/ci/tasks/promote-scaleio-sdc-candidate.yml
     params:
-      S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
-      S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
+      S3_ACCESS_KEY_ID:             {{s3_access_key_id}}
+      S3_SECRET_ACCESS_KEY:         {{s3_secret_access_key}}
       SCALEIO_SDC_RELEASE_NAME:     {{scaleio_sdc_release_name}}
   - put: scaleio-sdc-bosh-release
     params: {repository: promote/scaleio-sdc-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
@@ -63,18 +63,16 @@ jobs:
   serial: true
   plan:
   - aggregate:
-    - {trigger: true, passed: [scaleio-volman-acceptance], get: rexray-bosh-release}
-    - {trigger: false,                                   get: rexray-release-version-semver, params: {bump: major}}
+    - {trigger: true,   passed: [scaleio-volman-acceptance], get: rexray-bosh-release}
+    - {trigger: false,                                       get: rexray-release-version-semver,  params: {bump: major}}
   - task: promote-rexray-release
     file: rexray-bosh-release/ci/tasks/promote-rexray-candidate.yml
     params:
       S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
       S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
       REXRAY_RELEASE_NAME:  {{rexray_release_name}}
-
   - put: rexray-bosh-release
     params: {repository: promote/rexray-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
-
   - put: rexray-release-version-semver
     params: {file: rexray-release-version-semver/number}
 
