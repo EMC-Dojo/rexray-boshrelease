@@ -8,6 +8,7 @@ groups:
 
 jobs:
 - name: scaleio-volman-acceptance
+  serial: true
   plan:
   - aggregate:
     - {trigger: true,  get: scaleio-sdc-bosh-release}
