@@ -46,11 +46,18 @@ scaleio:
 For more examples of information about using other storage providers, please see <http://rexray.readthedocs.org/>
 
 ###Contact
-- Slack Channel:
-  - Organization: <http://codecommunity.slack.com>
-  - Channel: `#project-rexray`
-- Contact: [Victor Fong](mailto:victor.fong@emc.com) [@EMCDojo](https://twitter.com/hashtag/emcdojo)
-- Blog: [EMC Dojo Blog](dojoblog.emc.com)
+- For questions on using the Bosh release:
+	- Email: [EMCdojo@emc.com](mailto:EMCdojo@emc.com) 
+	- Twitter: [@EMCDojo](https://twitter.com/hashtag/emcdojo)
+	- Blog: [EMC Dojo Blog](dojoblog.emc.com)
+
+- For questions on using RexRay:
+	- Slack Channel:
+  		- Organization: <http://codecommunity.slack.com>
+  		- Channel: `#project-rexray`
+  
+	- Github: <https://github.com/emccode/rexray>
+
  
  
  
