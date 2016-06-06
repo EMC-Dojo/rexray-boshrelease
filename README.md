@@ -25,8 +25,20 @@ In order to run RexRay, it requires a Configuration YMl. Since we are deploying 
 
 ```
 rexray:
+  modules:
+    default-admin:
+      desc: The default admin module.
+      disabled: false
+      host: tcp://127.0.0.1:7979
+      type: admin
+    default-docker:
+      desc: The default docker module.
+      disabled: false
+      host: tcp://127.0.0.1:9000
+      spec: /var/vcap/data/voldrivers/rexray.spec 
+      type: docker
   storageDrivers:
-      - scaleio
+  - scaleio
 scaleio:
   endpoint: https://*.*.*.*/api
   insecure: false
@@ -40,18 +52,26 @@ scaleio:
   systemName: system
   thinOrThick: ThinProvisioned
   useCerts: true
-  
+linux:
+  volume:
+    fileMode: 0777  
 ```
 
 For more examples of information about using other storage providers, please see <http://rexray.readthedocs.org/>
 
+###Using RexRay for EMC Persistence with CloudFoundry (Diego Release)
+In order to use EMC storage with CloudFoundry you will need to deploy Diego cells (also with BOSH) where your applications will then live. 
+
+When deploying Deigo cells the volume manager needs to understand where the volume driver (RexRay) lives. You have two options for configuring this.
+
+-  Change the `default-docker.spec` line in the rexray config above to `/var/vcap/data/voldrivers/rexray.spec`
+-  Add `/etc/docker/plugins/rexray.spec` or your specific `*.spec` file for your volume driver to `properties.diego.executor.volman.driver_paths` in your Diego manifest.  
+  
 ###Contact
 - For questions on using the Bosh release:
 	- Email: [EMCdojo@emc.com](mailto:EMCdojo@emc.com) 
 	- Twitter: [@EMCDojo](https://twitter.com/hashtag/emcdojo)
 	- Blog: [EMC Dojo Blog](dojoblog.emc.com)
-
-- For questions on using RexRay:
 	- Slack Channel:
   		- Organization: <http://codecommunity.slack.com>
   		- Channel: `#project-rexray`
