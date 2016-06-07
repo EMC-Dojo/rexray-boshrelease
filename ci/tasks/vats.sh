@@ -110,8 +110,10 @@ properties:
           host: tcp://127.0.0.1:9000
           spec: /etc/docker/plugins/rexray.spec
           type: docker
-      storageDrivers:
-      - scaleio
+      libstorage:
+        embedded: true
+        driver: scaleio
+        service: scaleio
     scaleio:
       endpoint: ${SCALEIO_ENDPOINT}
       insecure: true
