@@ -51,7 +51,7 @@ resource_pools:
   network: private
   stemcell:
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+    version: 3215
   cloud_properties:
     instance_type: m3.medium
     ephemeral_disk: {size: 25_000, type: gp2}
@@ -128,7 +128,9 @@ properties:
       userID: ${SCALEIO_USER_ID}
       userName: ${SCALEIO_USERNAME}
       version: ${SCALEIO_VERSION}
-
+    linux:
+      volume:
+        fileMode: 0777
 compilation:
   workers: 1
   network: private
