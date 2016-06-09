@@ -108,6 +108,9 @@ properties:
           desc: The default docker module.
           disabled: false
           host: tcp://127.0.0.1:9000
+          http:
+            writetimeout: 120
+            readtimeout: 120
           spec: /etc/docker/plugins/rexray.spec
           type: docker
       libstorage:
