@@ -2,7 +2,7 @@
 
 REX-Ray delivers persistent storage access for container runtimes, such as Docker and Mesos, and provides an easy interface for enabling advanced storage functionality across common storage, virtualization and cloud platforms. 
 
-This Bosh release only contains the RexRay Release Binary version 0.3, which is required to be placed in the client VM in order to access volumes hosted on any storage platform.
+This Bosh release only contains the RexRay Release Binary version 0.4, which is required to be placed in the client VM in order to access volumes hosted on any storage platform.
 
 ###Creating Bosh Release
  
