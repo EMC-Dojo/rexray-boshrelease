@@ -12,6 +12,7 @@ check_param BOSH_USER
 check_param DEPLOYMENT_NAME
 check_param DEPLOYMENT_PASSWORD
 check_param DEPLOYMENT_PRIVATE_KEY
+check_param FAKE_VOLUME_NAME
 check_param REXRAY_RELEASE_NAME
 check_param SCALEIO_ENDPOINT
 check_param SCALEIO_MDM_IPS
@@ -183,7 +184,7 @@ cat > config.json <<EOF
   "volman_driver_path": "/etc/docker/plugins",
   "driver_name": "rexray",
   "create_config": {
-    "Name": "rexray",
+    "Name": "${FAKE_VOLUME_NAME}",
     "Opts": {}
   }
 }
@@ -201,6 +202,8 @@ mkdir -p gocode
 export GOPATH=/home/vcap/gocode
 export PATH=\$PATH:\$GOPATH/bin
 
+/var/vcap/packages/rexray/rexray volume create --volumename ${FAKE_VOLUME_NAME} --size 8 || true
+
 apt-get -y update && apt-get -y install git
 go get github.com/onsi/ginkgo/ginkgo
 go get github.com/onsi/gomega
@@ -214,6 +217,8 @@ printf "http://127.0.0.1:9000" > /etc/docker/plugins/rexray.spec
 
 export FIXTURE_FILENAME=/home/vcap/config.json
 ginkgo
+
+/var/vcap/packages/rexray/rexray volume unmount --volumename ${FAKE_VOLUME_NAME} || true
 EOF
 chmod +x run_test.sh
 scp -o StrictHostKeyChecking=no -i bosh.pem run_test.sh vcap@${AWS_ELASTIC_IP}:/home/vcap/

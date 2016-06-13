@@ -18,28 +18,29 @@ jobs:
   - task: vats
     file: rexray-bosh-release/ci/tasks/vats.yml
     params:
-      AWS_SUBNET_ID:                      {{aws_subnet_id}}
-      AWS_SECURITY_GROUP:                 {{aws_security_group}}
       AWS_ELASTIC_IP:                     {{aws_elastic_ip}}
+      AWS_SECURITY_GROUP:                 {{aws_security_group}}
+      AWS_SUBNET_ID:                      {{aws_subnet_id}}
       BOSH_DIRECTOR_PUBLIC_IP:            {{bosh_director_public_ip}}
-      BOSH_USER:                          {{bosh_user}}
       BOSH_PASSWORD:                      {{bosh_password}}
+      BOSH_USER:                          {{bosh_user}}
       DEPLOYMENT_NAME:                    {{deployment_name}}
-      DEPLOYMENT_PRIVATE_KEY:             {{deployment_private_key}}
       DEPLOYMENT_PASSWORD:                {{deployment_password}}
+      DEPLOYMENT_PRIVATE_KEY:             {{deployment_private_key}}
+      FAKE_VOLUME_NAME:                   {{vats_fake_volume_name}}
       REXRAY_RELEASE_NAME:                {{rexray_release_name}}
-      SCALEIO_SDC_RELEASE_NAME:           {{scaleio_sdc_release_name}}
-      SCALEIO_MDM_IPS:                    {{scaleio_mdm_ips}}
       SCALEIO_ENDPOINT:                   {{scaleio_endpoint}}
-      SCALEIO_USER_ID:                    {{scaleio_user_id}}
+      SCALEIO_MDM_IPS:                    {{scaleio_mdm_ips}}
       SCALEIO_PASSWORD:                   {{scaleio_password}}
-      SCALEIO_USERNAME:                   {{scaleio_username}}
-      SCALEIO_VERSION:                    {{scaleio_version}}
-      SCALEIO_SYSTEM_ID:                  {{scaleio_system_id}}
-      SCALEIO_STORAGE_POOL_ID:            {{scaleio_storage_pool_id}}
-      SCALEIO_STORAGE_POOL_NAME:          {{scaleio_storage_pool_name}}
       SCALEIO_PROTECTION_DOMAIN_ID:       {{scaleio_protection_domain_id}}
       SCALEIO_PROTECTION_DOMAIN_NAME:     {{scaleio_protection_domain_name}}
+      SCALEIO_SDC_RELEASE_NAME:           {{scaleio_sdc_release_name}}
+      SCALEIO_STORAGE_POOL_ID:            {{scaleio_storage_pool_id}}
+      SCALEIO_STORAGE_POOL_NAME:          {{scaleio_storage_pool_name}}
+      SCALEIO_SYSTEM_ID:                  {{scaleio_system_id}}
+      SCALEIO_USER_ID:                    {{scaleio_user_id}}
+      SCALEIO_USERNAME:                   {{scaleio_username}}
+      SCALEIO_VERSION:                    {{scaleio_version}}
 
 - name: promote-scaleio-sdc-candidate
   serial: true

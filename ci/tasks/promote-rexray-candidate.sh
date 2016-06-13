@@ -17,14 +17,14 @@ cp -r rexray-bosh-release promote/rexray-bosh-release
 pushd promote/rexray-bosh-release
   set +x
   echo creating config/private.yml with blobstore secrets
-  cat > config/private.yml << EOF
-  ---
-  blobstore:
-    s3:
-      bucket_name: rexray-bosh-release
-      access_key_id: ${S3_ACCESS_KEY_ID}
-      secret_access_key: ${S3_SECRET_ACCESS_KEY}
-  EOF
+  cat > config/private.yml <<EOF
+---
+blobstore:
+  s3:
+    bucket_name: rexray-bosh-release
+    access_key_id: ${S3_ACCESS_KEY_ID}
+    secret_access_key: ${S3_SECRET_ACCESS_KEY}
+EOF
   set -x
 
   echo "using bosh CLI version..."

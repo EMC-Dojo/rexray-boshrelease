@@ -17,14 +17,15 @@ cp -r scaleio-sdc-bosh-release promote/scaleio-sdc-bosh-release
 pushd promote/scaleio-sdc-bosh-release
   set +x
   echo creating config/private.yml with blobstore secrets
-  cat > config/private.yml << EOF
-  ---
-  blobstore:
-    s3:
-      bucket_name: scaleio-sdc-bosh-release
-      access_key_id: ${S3_ACCESS_KEY_ID}
-      secret_access_key: ${S3_SECRET_ACCESS_KEY}
-  EOF
+  cat > config/private.yml <<EOF
+---
+blobstore:
+  s3:
+    bucket_name: scaleio-sdc-bosh-release
+    access_key_id: ${S3_ACCESS_KEY_ID}
+    secret_access_key: ${S3_SECRET_ACCESS_KEY}
+EOF
+
   set -x
 
   echo "using bosh CLI version..."

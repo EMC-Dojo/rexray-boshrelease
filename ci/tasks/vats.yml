@@ -18,6 +18,7 @@ params:
   DEPLOYMENT_NAME:                         replace-me
   DEPLOYMENT_PASSWORD:                     replace-me
   DEPLOYMENT_PRIVATE_KEY:                  replace-me
+  FAKE_VOLUME_NAME:                        replace-me
   REXRAY_RELEASE_NAME:                     replace-me
   SCALEIO_ENDPOINT:                        replace-me
   SCALEIO_MDM_IPS:                         replace-me
