@@ -79,7 +79,7 @@ jobs:
         S3_ACCESS_KEY_ID:             {{s3_access_key_id}}
         S3_SECRET_ACCESS_KEY:         {{s3_secret_access_key}}
         SCALEIO_SDC_RELEASE_NAME:     {{scaleio_sdc_release_name}}
-  - put: scaleio-sdc-bosh-release
+  - put: scaleio-sdc-bosh-release-out
     params: {repository: promote/scaleio-sdc-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
   - put: scaleio-sdc-release-version-semver
     params: {file: scaleio-sdc-release-version-semver/number}
@@ -109,7 +109,7 @@ jobs:
       S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
       S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
       REXRAY_RELEASE_NAME:  {{rexray_release_name}}
-  - put: rexray-bosh-release
+  - put: rexray-bosh-release-out
     params: {repository: promote/rexray-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
   - put: rexray-release-version-semver
     params: {file: rexray-release-version-semver/number}
@@ -119,10 +119,21 @@ resources:
   type: git
   source:
     uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/ScaleIO-SDC-Bosh-Release.git
-    private_key: {{sdc_bosh_release_private_key}}
     branch: master
 
 - name: rexray-bosh-release
+  type: git
+  source:
+    uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/rexray-boshrelease.git
+    branch: master
+
+- name: scaleio-sdc-bosh-release-out
+  type: git
+  source:
+    uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/ScaleIO-SDC-Bosh-Release.git
+    branch: master
+
+- name: rexray-bosh-release-out
   type: git
   source:
     uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/rexray-boshrelease.git

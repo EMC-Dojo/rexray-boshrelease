@@ -39,7 +39,5 @@ EOF
   git diff | cat
   git add .
 
-  git config --global user.email emccmd-eng@emc.com
-  git config --global user.name EMCCMD-CI
   git commit -m ":airplane: New final release v ${integer_version}" -m "[ci skip]"
 popd
