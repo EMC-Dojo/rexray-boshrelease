@@ -46,5 +46,5 @@ EOF
   git config --global user.name EMCCMD-CI
   git commit -m ":airplane: New final release v ${integer_version}" -m "[ci skip]"
 
-  git push https://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/EMC-Dojo/rexray-boshrelease.git/
+  git push https://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/EMC-Dojo/ScaleIO-SDC-Bosh-Release.git
 popd

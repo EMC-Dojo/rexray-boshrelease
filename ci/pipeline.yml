@@ -127,17 +127,6 @@ resources:
     uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/rexray-boshrelease.git
     branch: master
 
-- name: scaleio-sdc-bosh-release-out
-  type: git
-  source:
-    uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/ScaleIO-SDC-Bosh-Release.git
-    branch: master
-
-- name: rexray-bosh-release-out
-  type: git
-  source:
-    uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/rexray-boshrelease.git
-    branch: master
 
 - name: volman
   type: git
