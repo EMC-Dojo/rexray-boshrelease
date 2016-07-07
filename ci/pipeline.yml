@@ -76,11 +76,11 @@ jobs:
       run:
         path: rexray-bosh-release/ci/tasks/promote-scaleio-sdc-candidate.sh
       params:
+        GITHUB_USER:                  {{github_user}}
+        GITHUB_PASSWORD:              {{github_password}}
         S3_ACCESS_KEY_ID:             {{s3_access_key_id}}
         S3_SECRET_ACCESS_KEY:         {{s3_secret_access_key}}
         SCALEIO_SDC_RELEASE_NAME:     {{scaleio_sdc_release_name}}
-  - put: scaleio-sdc-bosh-release-out
-    params: {repository: promote/scaleio-sdc-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
   - put: scaleio-sdc-release-version-semver
     params: {file: scaleio-sdc-release-version-semver/number}
 
@@ -106,11 +106,11 @@ jobs:
       run:
         path: rexray-bosh-release/ci/tasks/promote-rexray-candidate.sh
     params:
+      GITHUB_USER:          {{github_user}}
+      GITHUB_PASSWORD:      {{github_password}}
       S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
       S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
       REXRAY_RELEASE_NAME:  {{rexray_release_name}}
-  - put: rexray-bosh-release-out
-    params: {repository: promote/rexray-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
   - put: rexray-release-version-semver
     params: {file: rexray-release-version-semver/number}
 

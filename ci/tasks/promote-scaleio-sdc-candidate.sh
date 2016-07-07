@@ -4,6 +4,8 @@ set -e -x
 
 source rexray-bosh-release/ci/tasks/utils.sh
 
+check_param GITHUB_USER
+check_param GITHUB_PASSWORD
 check_param S3_ACCESS_KEY_ID
 check_param S3_SECRET_ACCESS_KEY
 check_param SCALEIO_SDC_RELEASE_NAME
@@ -40,5 +42,9 @@ EOF
   git diff | cat
   git add .
 
+  git config --global user.email emccmd-eng@emc.com
+  git config --global user.name EMCCMD-CI
   git commit -m ":airplane: New final release v ${integer_version}" -m "[ci skip]"
+
+  git push https://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/EMC-Dojo/rexray-boshrelease.git/
 popd
