@@ -3,6 +3,7 @@ groups:
 - name: rexray-scaleio
   jobs:
   - scaleio-volman-acceptance
+  - isilon-volman-acceptance
   - promote-scaleio-sdc-candidate
   - promote-rexray-candidate
 
@@ -27,16 +28,15 @@ jobs:
       - name: rexray-bosh-release
       - name: volman
       run:
-        path: rexray-bosh-release/ci/tasks/vats.sh
+        path: rexray-bosh-release/ci/tasks/vats-scaleio.sh
       params:
         BOSH_DIRECTOR_PUBLIC_IP:            {{bosh_director_public_ip}}
         BOSH_PASSWORD:                      {{bosh_password}}
         BOSH_USER:                          {{bosh_user}}
-        DEPLOYMENT_NAME:                    {{deployment_name}}
         DEPLOYMENT_PASSWORD:                {{deployment_password}}
-        DEPLOYMENT_PRIVATE_KEY:             {{deployment_private_key}}
         FAKE_VOLUME_NAME:                   {{vats_fake_volume_name}}
         REXRAY_RELEASE_NAME:                {{rexray_release_name}}
+        SCALEIO_VATS_DEPLOYMENT_NAME:       {{scaleio_vats_deployment_name}}
         SCALEIO_ENDPOINT:                   {{scaleio_endpoint}}
         SCALEIO_INSECURE:                   {{scaleio_insecure}}
         SCALEIO_MDM_IPS:                    {{scaleio_mdm_ips}}
@@ -50,7 +50,43 @@ jobs:
         SCALEIO_USER_ID:                    {{scaleio_user_id}}
         SCALEIO_USERNAME:                   {{scaleio_username}}
         SCALEIO_VERSION:                    {{scaleio_version}}
-        VSPHERE_VM_IP:                      {{vsphere_vm_ip}}
+        SCALEIO_VSPHERE_VM_IP:              {{scaleio_vsphere_vm_ip}}
+
+- name: isilon-volman-acceptance
+  serial: true
+  plan:
+  - aggregate:
+    - {trigger: true,       get: rexray-bosh-release}
+    - {trigger: true,       get: volman}
+  - task: vats
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: {{docker_repo}}
+          insecure_registries: [{{docker_registry}}]
+      inputs:
+      - name: rexray-bosh-release
+      - name: volman
+      run:
+        path: rexray-bosh-release/ci/tasks/vats-isilon.sh
+      params:
+        BOSH_DIRECTOR_PUBLIC_IP:            {{bosh_director_public_ip}}
+        BOSH_PASSWORD:                      {{bosh_password}}
+        BOSH_USER:                          {{bosh_user}}
+        DEPLOYMENT_PASSWORD:                {{deployment_password}}
+        FAKE_VOLUME_NAME:                   {{vats_fake_volume_name}}
+        REXRAY_RELEASE_NAME:                {{rexray_release_name}}
+        ISILON_ENDPOINT:                    {{isilon_endpoint}}
+        ISILON_INSECURE:                    {{isilon_insecure}}
+        ISILON_USERNAME:                    {{isilon_username}}
+        ISILON_PASSWORD:                    {{isilon_password}}
+        ISILON_VOLUME_PATH:                 {{isilon_volume_path}}
+        ISILON_ENDPOINT:                    {{isilon_endpoint}}
+        ISILON_DATA_SUBNET:                 {{isilon_data_subnet}}
+        ISILON_VATS_DEPLOYMENT_NAME:        {{isilon_vats_deployment_name}}
+        ISILON_VSPHERE_VM_IP:               {{isilon_vsphere_vm_ip}}
 
 - name: promote-scaleio-sdc-candidate
   serial: true
@@ -88,7 +124,7 @@ jobs:
   serial: true
   plan:
   - aggregate:
-    - {trigger: true,   passed: [scaleio-volman-acceptance], get: rexray-bosh-release}
+    - {trigger: true,   passed: [scaleio-volman-acceptance, isilon-volman-acceptance], get: rexray-bosh-release}
     - {trigger: false,                                       get: rexray-release-version-semver,  params: {bump: major}}
   - task: promote-rexray-release
     config:
