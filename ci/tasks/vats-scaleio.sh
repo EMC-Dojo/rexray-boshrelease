@@ -79,20 +79,21 @@ properties:
           host: tcp://127.0.0.1:9000
           spec: /etc/docker/plugins/rexray.spec
           type: docker
+          libstorage:
+            service: scaleio
       libstorage:
         embedded: true
         driver: scaleio
-        service: scaleio
+        server:
+          services:
+            scaleio:
+              driver: scaleio
     scaleio:
       endpoint: ${SCALEIO_ENDPOINT}
       insecure: ${SCALEIO_INSECURE}
       password: ${SCALEIO_PASSWORD}
       protectionDomainName: default
       storagePoolName: ${SCALEIO_STORAGE_POOL_NAME}
-      systemID: ${SCALEIO_SYSTEM_ID}
-      thinOrThick: ThinProvisioned
-      useCerts: false
-      userID: ${SCALEIO_USER_ID}
       userName: ${SCALEIO_USERNAME}
       version: ${SCALEIO_VERSION}
     linux:

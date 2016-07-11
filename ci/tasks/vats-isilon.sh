@@ -54,10 +54,27 @@ properties:
   rexray: |
     ---
     rexray:
+      modules:
+        default-admin:
+          desc: The default admin module.
+          disabled: false
+          host: tcp://127.0.0.1:7979
+          type: admin
+        default-docker:
+          desc: The default docker module.
+          disabled: false
+          host: tcp://127.0.0.1:9000
+          spec: /etc/docker/plugins/rexray.spec
+          type: docker
+          libstorage:
+            service: isilon
       libstorage:
         embedded: true
         driver: isilon
-        service: isilon
+        server:
+          services:
+            isilon:
+              driver: isilon
     isilon:
       endpoint: https://${ISILON_ENDPOINT}:8080
       insecure: ${ISILON_INSECURE}
@@ -67,6 +84,7 @@ properties:
       nfsHost: ${ISILON_ENDPOINT}
       dataSubnet: ${ISILON_DATA_SUBNET}
       quotas: false
+      sharedMounts: true
     linux:
       volume:
         fileMode: 0777
@@ -127,7 +145,7 @@ mkdir -p gocode
 export GOPATH=/home/vcap/gocode
 export PATH=\$PATH:\$GOPATH/bin
 
-# /var/vcap/packages/rexray/rexray volume create --volumename ${FAKE_VOLUME_NAME} --size 8 || true
+/var/vcap/packages/rexray/rexray volume create --volumename ${FAKE_VOLUME_NAME} --size 8 || true
 
 go get --insecure -f -u gopkg.in/yaml.v2
 go get --insecure -f -u github.com/onsi/ginkgo/ginkgo
@@ -141,7 +159,7 @@ printf "http://127.0.0.1:9000" > /etc/docker/plugins/rexray.spec
 export FIXTURE_FILENAME=/home/vcap/config.json
 ginkgo -r
 
-# /var/vcap/packages/rexray/rexray volume unmount --volumename ${FAKE_VOLUME_NAME} || true
+/var/vcap/packages/rexray/rexray volume unmount --volumename ${FAKE_VOLUME_NAME} || true
 EOF
 
 chmod +x run_test.sh
