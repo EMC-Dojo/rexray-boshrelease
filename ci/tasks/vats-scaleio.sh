@@ -9,6 +9,7 @@ check_param BOSH_USER
 check_param DEPLOYMENT_PASSWORD
 check_param FAKE_VOLUME_NAME
 check_param REXRAY_RELEASE_NAME
+check_param VOLUME_DRIVER_ADDRESS
 
 check_param SCALEIO_ENDPOINT
 check_param SCALEIO_INSECURE
@@ -140,6 +141,7 @@ function ssh_run() {
 cat > config.json <<EOF
 {
   "volman_driver_path": "/etc/docker/plugins",
+  "driver_address": "${VOLUME_DRIVER_ADDRESS}",
   "driver_name": "rexray",
   "create_config": {
     "Name": "${FAKE_VOLUME_NAME}",
@@ -152,7 +154,6 @@ sshpass -p ${DEPLOYMENT_PASSWORD} scp -o StrictHostKeyChecking=no config.json vc
 
 cat > run_test.sh <<EOF
 set -x
-set -x
 
 add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
 apt-get -y update
@@ -163,8 +164,6 @@ mkdir -p gocode
 export GOPATH=/home/vcap/gocode
 export PATH=\$PATH:\$GOPATH/bin
 
-/var/vcap/packages/rexray/rexray volume create --volumename ${FAKE_VOLUME_NAME} --size 8 || true
-
 go get --insecure -f -u gopkg.in/yaml.v2
 go get --insecure -f -u github.com/onsi/ginkgo/ginkgo
 go get --insecure -f -u github.com/onsi/gomega
@@ -172,13 +171,8 @@ go get --insecure -f -u github.com/cloudfoundry-incubator/volume_driver_cert
 go get --insecure -f -u code.cloudfoundry.org/clock
 cd \$GOPATH/src/github.com/cloudfoundry-incubator/volume_driver_cert
 
-printf "http://127.0.0.1:9000" > /etc/docker/plugins/rexray.spec
-
 export FIXTURE_FILENAME=/home/vcap/config.json
 ginkgo -r
-
-/var/vcap/packages/rexray/rexray volume unmount --volumename ${FAKE_VOLUME_NAME} || true
-# /var/vcap/packages/rexray/rexray volume remove --volumeid $(/var/vcap/packages/rexray/rexray volume get --volumename ${FAKE_VOLUME_NAME} -f json | jq .id -r)
 EOF
 
 chmod +x run_test.sh
