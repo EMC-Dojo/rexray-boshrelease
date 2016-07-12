@@ -30,6 +30,18 @@ case $1 in
 EOF
     $PKG_DIR/rexray service start| grep 'SUCCESS!' &> /dev/null
     if [ $? == 0 ]; then
+       mapfile -t specfiles < <(cat /etc/rexray/config.yml | grep spec |  awk '{print $0,"\n"}' | sed 's/spec://' | sed -e 's/^\s*//' -e '/^$/d')
+       mapfile -t hostlist < <(cat /etc/rexray/config.yml | grep host |  awk '{print $0,"\n"}' | sed 's/host: //' | sed -e 's/^\s*//' -e '/^$/d')
+
+       for i in "${!specfiles[@]}"; do
+          SPEC_FILE_NO_WHITESPACE="$(echo -e "${specfiles[i]}" | tr -d '\040\011\012\015')"
+          HOST_LIST_NO_WHITESPACE="$(echo -e "${hostlist[i]}" | tr -d '\040\011\012\015')"
+          rm -f "${SPEC_FILE_NO_WHITESPACE}"
+          echo "${HOST_LIST_NO_WHITESPACE}" >> "${SPEC_FILE_NO_WHITESPACE}"
+       done
+
+
+
        echo "$(timestamp) Successfully Started RexRay! :)" >> $LOG_DIR/log.txt
     else
        echo "$(timestamp) FAILED to start RexRay: Check $REXRAY/config.yml and make sure you have the correct params. Check http://rexray.readthedocs.org/en/stable/user-guide/config/ for help." >> $LOG_DIR/log.txt
