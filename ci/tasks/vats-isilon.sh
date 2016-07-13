@@ -56,22 +56,18 @@ properties:
     ---
     rexray:
       modules:
-        default-admin:
-          desc: The default admin module.
-          disabled: false
-          host: tcp://127.0.0.1:7979
-          type: admin
-        default-docker:
-          desc: The default docker module.
+        isilon:
           disabled: false
           host: tcp://127.0.0.1:9000
-          spec: /etc/docker/plugins/rexray.spec
+          spec: /var/vcap/data/voldrivers/rexray_isilon.spec
+          http:
+            writetimeout: 900
+            readtimeout: 900
           type: docker
           libstorage:
             service: isilon
       libstorage:
         embedded: true
-        driver: isilon
         server:
           services:
             isilon:
