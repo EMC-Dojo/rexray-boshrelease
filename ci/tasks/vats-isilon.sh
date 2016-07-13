@@ -33,14 +33,14 @@ stemcells:
   os: ubuntu-trusty
   version: '3215'
 releases:
-- name: rexray-bosh-release
+- name: rexray-release
   version: latest
 jobs:
 - name: ${ISILON_VATS_DEPLOYMENT_NAME}
   instances: 1
   templates:
   - name: rexray_service
-    release: rexray-bosh-release
+    release: rexray-release
   vm_type: medium
   stemcell: trusty
   azs:

@@ -39,7 +39,7 @@ stemcells:
   os: ubuntu-trusty
   version: '3215'
 releases:
-- name: rexray-bosh-release
+- name: rexray-release
   version: latest
 - name: scaleio-sdc-bosh-release
   version: latest
@@ -50,7 +50,7 @@ jobs:
   - name: setup_sdc
     release: scaleio-sdc-bosh-release
   - name: rexray_service
-    release: rexray-bosh-release
+    release: rexray-release
   vm_type: medium
   stemcell: trusty
   azs:

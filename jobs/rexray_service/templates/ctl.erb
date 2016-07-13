@@ -37,6 +37,8 @@ EOF
           SPEC_FILE_NO_WHITESPACE="$(echo -e "${specfiles[i]}" | tr -d '\040\011\012\015')"
           HOST_LIST_NO_WHITESPACE="$(echo -e "${hostlist[i]}" | tr -d '\040\011\012\015')"
           rm -f "${SPEC_FILE_NO_WHITESPACE}"
+          SPEC_DIR_NAME="$(dirname "${SPEC_FILE_NO_WHITESPACE}")"
+          mkdir -p ${SPEC_DIR_NAME}
           echo "${HOST_LIST_NO_WHITESPACE}" >> "${SPEC_FILE_NO_WHITESPACE}"
        done
 
