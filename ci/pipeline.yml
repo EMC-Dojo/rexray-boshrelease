@@ -89,7 +89,7 @@ jobs:
         ISILON_VATS_DEPLOYMENT_NAME:        {{isilon_vats_deployment_name}}
         ISILON_VSPHERE_VM_IP:               {{isilon_vsphere_vm_ip}}
         VOLUME_DRIVER_ADDRESS:              {{volume_driver_address}}
-        
+
 - name: promote-scaleio-sdc-candidate
   serial: true
   plan:
