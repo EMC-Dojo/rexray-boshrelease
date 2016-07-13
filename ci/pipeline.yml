@@ -115,10 +115,13 @@ jobs:
         path: rexray-bosh-release/ci/tasks/promote-scaleio-sdc-candidate.sh
       params:
         GITHUB_USER:                  {{github_user}}
-        GITHUB_PASSWORD:              {{github_password}}
         S3_ACCESS_KEY_ID:             {{s3_access_key_id}}
         S3_SECRET_ACCESS_KEY:         {{s3_secret_access_key}}
         SCALEIO_SDC_RELEASE_NAME:     {{scaleio_sdc_release_name}}
+
+  - put: scaleio-sdc-bosh-release
+    params: {repository: promote/scaleio-sdc-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
+
   - put: scaleio-sdc-release-version-semver
     params: {file: scaleio-sdc-release-version-semver/number}
 
@@ -145,10 +148,13 @@ jobs:
         path: rexray-bosh-release/ci/tasks/promote-rexray-candidate.sh
     params:
       GITHUB_USER:          {{github_user}}
-      GITHUB_PASSWORD:      {{github_password}}
       S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
       S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
       REXRAY_RELEASE_NAME:  {{rexray_release_name}}
+
+  - put: rexray-bosh-release
+    params: {repository: promote/rexray-bosh-release, rebase: true, tag_prefix: "v", tag: promote/integer_version}
+
   - put: rexray-release-version-semver
     params: {file: rexray-release-version-semver/number}
 
@@ -156,19 +162,26 @@ resources:
 - name: scaleio-sdc-bosh-release
   type: git
   source:
-    uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/ScaleIO-SDC-Bosh-Release.git
+    uri: https://github.com/EMC-Dojo/ScaleIO-SDC-Bosh-Release.git
     branch: master
+    username: {{github_user}}
+    password: {{github_password}}
+    skip_ssl_verification: true
 
 - name: rexray-bosh-release
   type: git
   source:
-    uri: https://{{github_user}}:{{github_password}}@github.com/EMC-Dojo/rexray-boshrelease.git
+    uri: https://github.com/EMC-Dojo/rexray-boshrelease.git
     branch: master
+    username: {{github_user}}
+    password: {{github_password}}
+    skip_ssl_verification: true
 
 - name: volman
   type: git
   source:
     uri: https://github.com/cloudfoundry-incubator/volman
+    skip_ssl_verification: true
 
 - name: rexray-release-version-semver
   type: semver

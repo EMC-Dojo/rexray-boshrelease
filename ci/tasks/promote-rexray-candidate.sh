@@ -42,10 +42,10 @@ EOF
   git add .
 
   git config --global user.email emccmd-eng@emc.com
-  git config --global user.name EMCCMD-CI
+  git config --global user.name Emc-Dojo-Concourse
   git config --global push.default simple
 
   git commit -m ":airplane: New final release v ${integer_version}" -m "[ci skip]"
 
-  git push https://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/EMC-Dojo/rexray-boshrelease.git/ HEAD:master
+  #git push https://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/EMC-Dojo/rexray-boshrelease.git/ HEAD:master
 popd
