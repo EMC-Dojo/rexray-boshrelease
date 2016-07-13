@@ -1,0 +1,16 @@
+---
+packages:
+- name: rexray
+  version: 54bcf6e0d3c7556ca7ba3e27167ac0052ada90e3
+  fingerprint: 54bcf6e0d3c7556ca7ba3e27167ac0052ada90e3
+  sha1: 78f0198a90e8bb468f52114f7642714c8b02131a
+  dependencies: []
+jobs:
+- name: rexray_service
+  version: b4d9128ecace7c456324094e285af106124dd15e
+  fingerprint: b4d9128ecace7c456324094e285af106124dd15e
+  sha1: 87a7a87fb1060bef5847a74a184a6bfcc56d392c
+commit_hash: 35ac8a75
+uncommitted_changes: false
+name: rexray-release
+version: '20'
