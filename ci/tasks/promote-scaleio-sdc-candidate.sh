@@ -45,6 +45,6 @@ EOF
   git config --global user.name ${GITHUB_USER}
   git config --global push.default simple
 
-  git commit -m ":airplane: New final release v ${integer_version}" -m "[ci skip]"
+  git commit -m ":airplane: New final release v ${integer_version} [ci skip]"
 
 popd
