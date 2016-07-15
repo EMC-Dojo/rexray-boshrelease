@@ -115,6 +115,7 @@ jobs:
         path: rexray-bosh-release/ci/tasks/promote-scaleio-sdc-candidate.sh
       params:
         GITHUB_USER:                  {{github_user}}
+        GITHUB_EMAIL:                 {{github_email}}
         S3_ACCESS_KEY_ID:             {{s3_access_key_id}}
         S3_SECRET_ACCESS_KEY:         {{s3_secret_access_key}}
         SCALEIO_SDC_RELEASE_NAME:     {{scaleio_sdc_release_name}}
@@ -148,6 +149,7 @@ jobs:
         path: rexray-bosh-release/ci/tasks/promote-rexray-candidate.sh
     params:
       GITHUB_USER:          {{github_user}}
+      GITHUB_EMAIL:         {{github_email}}
       S3_ACCESS_KEY_ID:     {{s3_access_key_id}}
       S3_SECRET_ACCESS_KEY: {{s3_secret_access_key}}
       REXRAY_RELEASE_NAME:  {{rexray_release_name}}

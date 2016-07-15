@@ -5,6 +5,7 @@ set -e -x
 source rexray-bosh-release/ci/tasks/utils.sh
 
 check_param GITHUB_USER
+check_param GITHUB_EMAIL
 check_param S3_ACCESS_KEY_ID
 check_param S3_SECRET_ACCESS_KEY
 check_param SCALEIO_SDC_RELEASE_NAME
@@ -41,7 +42,7 @@ EOF
   git diff | cat
   git add .
 
-  git config --global user.email emccmd-eng@emc.com
+  git config --global user.email ${GITHUB_EMAIL}
   git config --global user.name ${GITHUB_USER}
   git config --global push.default simple
 
