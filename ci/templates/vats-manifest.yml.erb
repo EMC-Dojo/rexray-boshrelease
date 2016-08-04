@@ -8,7 +8,7 @@ stemcells:
   version: '3215'
 
 releases:
-- name: rexray-boshrelease
+- name: <%= ENV['REXRAY_RELEASE_NAME'] %>
   version: latest
 <% if ENV['STORAGE_SERVICE_TYPE'] == 'scaleio' %>
 - name: scaleio-sdc-boshrelease
@@ -20,7 +20,7 @@ jobs:
   instances: 1
   templates:
   - name: rexray_service
-    release: rexray-boshrelease
+    release: <%= ENV['REXRAY_RELEASE_NAME'] %>
   <% if ENV['STORAGE_SERVICE_TYPE'] == 'scaleio' %>
   - name: setup_sdc
     release: scaleio-sdc-boshrelease

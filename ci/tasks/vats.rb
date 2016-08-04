@@ -15,6 +15,7 @@ class VATs
     BOSH_DIRECTOR_PUBLIC_IP
     BOSH_PASSWORD
     BOSH_USER
+    REXRAY_RELEASE_NAME
     STORAGE_SERVICE_TYPE
     VATS_DEPLOYMENT_IP
     VATS_DEPLOYMENT_NAME
@@ -53,6 +54,8 @@ class VATs
     exec_cmd("bosh target #{@bosh_director_public_ip}")
     exec_cmd("bosh login #{@bosh_user} #{@bosh_password}")
 
+    cleanup
+
     output = exec_cmd('bosh status --uuid')
     bosh_director_uuid = output[1].strip
     generate_bosh_manifest(bosh_director_uuid)
@@ -65,10 +68,12 @@ class VATs
     scp(REXRAY_CONFIG_JSON_PATH)
     scp(RUN_VATS_SH_PATH)
     ssh_run_vats
-  ensure
-    # exec_cmd("bosh -n delete deployment #{@vats_deployment_name}")
-    # exec_cmd("bosh -n delete release rexray-boshrelease")
-    # exec_cmd("bosh -n delete release scaleio-sdc-boshrelease")
+  end
+
+  def cleanup
+    exec_cmd("bosh -n delete deployment #{@vats_deployment_name}")
+    exec_cmd("bosh -n delete release #{@rexray_release_name} || true")
+    exec_cmd("bosh -n delete release scaleio-sdc-boshrelease || true")
   end
 
   def scp(filepath)
@@ -85,7 +90,7 @@ class VATs
 
   def upload_bosh_releases
     exec_cmd("pushd rexray-boshrelease && \
-              bosh -n create release --force --name rexray-boshrelease && \
+              bosh -n create release --force --name #{@rexray_release_name} && \
               bosh -n upload release && \
               popd")
 
