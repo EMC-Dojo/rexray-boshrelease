@@ -11,7 +11,7 @@ releases:
 - name: <%= ENV['REXRAY_RELEASE_NAME'] %>
   version: latest
 <% if ENV['STORAGE_SERVICE_TYPE'] == 'scaleio' %>
-- name: scaleio-sdc-boshrelease
+- name: scaleio-boshrelease
   version: latest
 <% end %>
 
@@ -23,7 +23,7 @@ jobs:
     release: <%= ENV['REXRAY_RELEASE_NAME'] %>
   <% if ENV['STORAGE_SERVICE_TYPE'] == 'scaleio' %>
   - name: setup_sdc
-    release: scaleio-sdc-boshrelease
+    release: scaleio-boshrelease
   <% end %>
   vm_type: medium
   stemcell: trusty
