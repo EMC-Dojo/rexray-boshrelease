@@ -73,7 +73,7 @@ class VATs
   def cleanup
     exec_cmd("bosh -n delete deployment #{@vats_deployment_name}")
     exec_cmd("bosh -n delete release #{@rexray_release_name} || true")
-    exec_cmd("bosh -n delete release scaleio-sdc-boshrelease || true")
+    exec_cmd("bosh -n delete release scaleio-boshrelease || true")
   end
 
   def scp(filepath)
@@ -95,8 +95,8 @@ class VATs
               popd")
 
     if @storage_service_type == 'scaleio'
-      exec_cmd("pushd scaleio-sdc-boshrelease && \
-                bosh -n create release --force --name scaleio-sdc-boshrelease && \
+      exec_cmd("pushd scaleio-boshrelease && \
+                bosh -n create release --force --name scaleio-boshrelease && \
                 bosh -n upload release && \
                 popd")
     end
