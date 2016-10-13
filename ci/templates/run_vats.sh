@@ -6,7 +6,7 @@ apt-get -y update
 #install golang
 wget https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz --no-check-certificate
 sudo tar -xvf go1.7.linux-amd64.tar.gz
-sudo chmod -r 777 go
+sudo chmod 777 -R go
 sudo mv go /usr/local
 export GOROOT=/usr/local/go
 
@@ -14,7 +14,7 @@ apt-get -y install git
 
 mkdir -p gocode
 export GOPATH=/home/vcap/gocode
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 
 go get --insecure -f -u code.cloudfoundry.org/cfhttp
 go get --insecure -f -u code.cloudfoundry.org/cfhttp/handlers
