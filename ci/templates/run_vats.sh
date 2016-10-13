@@ -4,7 +4,7 @@ add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
 apt-get -y update
 
 #install golang
-wget https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz
+wget https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz --no-check-certificate
 sudo tar -xvf go1.7.linux-amd64.tar.gz
 sudo chmod -r 777 go
 sudo mv go /usr/local
