@@ -2,7 +2,15 @@ set -x
 
 add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
 apt-get -y update
-apt-get -y install golang git
+
+#install golang
+wget https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz
+sudo tar -xvf go1.7.linux-amd64.tar.gz
+sudo chmod -r 777 go
+sudo mv go /usr/local
+export GOROOT=/usr/local/go
+
+apt-get -y install git
 
 mkdir -p gocode
 export GOPATH=/home/vcap/gocode
