@@ -1,3 +1,6 @@
+# :hurtrealbad: :rage1: DEPRECATED :rage2: :rage3:
+This BOSH release is no longer actively maintained.  If you are using shared NFS volumes with Cloud Foundry, we recommend using [nfs-volume-release](https://github.com/cloudfoundry-incubator/nfs-volume-release).  If that broker/volume driver does not meet your needs, please let us know by posting an issue or pull request to that Github repository.
+
 ###RexRay Bosh Release
 
 REX-Ray delivers persistent storage access for container runtimes, such as Docker and Mesos, and provides an easy interface for enabling advanced storage functionality across common storage, virtualization and cloud platforms. 
